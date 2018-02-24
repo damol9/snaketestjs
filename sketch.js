@@ -64,14 +64,19 @@ function draw() {
   }
   if(apple.x==snake_part[0].x&&apple.y==snake_part[0].y){
     snake_length+=1;
-    console.log('hit - length:'+snake_length);
+    //console.log('hit - length:'+snake_length);
     apple_exists = false;
-    if(direction === 0)snake_part.unshift(new Snake_Part(snake_part[snake_length-1].x,snake_part[snake_length-1].y-20));
-    if(direction === 1)snake_part.unshift(new Snake_Part(snake_part[snake_length-1].x,snake_part[snake_length-1].y+20));
-    if(direction === 2)snake_part.unshift(new Snake_Part(snake_part[snake_length-1].x-20,snake_part[snake_length-1].y));
-    if(direction === 3)snake_part.unshift(new Snake_Part(snake_part[snake_length-1].x+20,snake_part[snake_length-1].y));
+    snake_part.unshift(new Snake_Part(snake_part[0].x,snake_part[0].y));
+    /*if(direction === 0)snake_part.unshift(new Snake_Part(snake_part[0].x,snake_part[0].y-20));
+    if(direction === 1)snake_part.unshift(new Snake_Part(snake_part[0].x,snake_part[0].y+20));
+    if(direction === 2)snake_part.unshift(new Snake_Part(snake_part[0].x-20,snake_part[0].y));
+    if(direction === 3)snake_part.unshift(new Snake_Part(snake_part[0].x+20,snake_part[0].y));*/
   }
+  //if(frameCount%speed==0){
+  //  console.log(snake_part[0].x,snake_part[0].y);
+  //}
 }
+
 function keyPressed() {
   if (keyCode === LEFT_ARROW || keyCode === 65){
     if(direction != 3)direction = 2;
