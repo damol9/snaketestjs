@@ -10,5 +10,5 @@ function draw() {
     for(let j=0;j<400;j+=rect_size){
     rect(i,j,rect_size,rect_size);
     }
-  }*/
+  }xd*/
 }
