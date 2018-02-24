@@ -1,15 +1,10 @@
 let rect_size=20;
-let direction=0;
+let direction=1;
 let speed=15; //smaller value - faster
 let apple;
 let apple_exists=false;
-let rectangle = {
-  x:200,
-  y:200
-}
-var snake = {
-  length:1
-}
+var snake_length = 1;
+var snake_part = [];
 /*
 direction:
 0 - up
@@ -27,15 +22,30 @@ function Apple(){
     rect(this.x,this.y,rect_size,rect_size);
   }
 }
+function Snake_Part(x,y){
+  this.x=x;
+  this.y=y;
+  this.show = function(){
+    fill('white');
+    rect(this.x,this.y,rect_size,rect_size);
+  }
+}
 
 function setup() {
   createCanvas(401, 401);
+  snake_part.push(new Snake_Part(200,200));
+  snake_part.push(new Snake_Part(200,180));
+  snake_part.push(new Snake_Part(200,160));
+  //console.log(snake_part[0].x+' '+snake_part[0].y);
 }
 
 function draw() {
   background(0,0,0);
   fill('white');
-  rect(rectangle.x,rectangle.y,rect_size,rect_size);
+  for(let i=0;i<snake_part.length;i++){
+    //rect(snake_part[i].x,snake_part[i].y,rect_size,rect_size);
+    snake_part[i].show();
+  }
   if(apple_exists === false){
     apple = new Apple();
 
@@ -46,37 +56,34 @@ function draw() {
 
 
   if(frameCount%speed==0){
-    if(direction==0)rectangle.y-=rect_size;
-    else if(direction==1)rectangle.y+=rect_size;
-    else if(direction==2)rectangle.x-=rect_size;
-    else if(direction==3)rectangle.x+=rect_size;
-
-    if(rectangle.x<0)rectangle.x+=400;
-    if(rectangle.y<0)rectangle.y+=400;
-    rectangle.x=rectangle.x%400;
-    rectangle.y=rectangle.y%400;
-
-    //console.log(rectangle.x+' '+rectangle.y);
+    snake_part.pop();
+    if(direction === 0)snake_part.unshift(new Snake_Part(snake_part[0].x,snake_part[0].y-20));
+    else if(direction === 1)snake_part.unshift(new Snake_Part(snake_part[0].x,snake_part[0].y+20));
+    else if(direction === 2)snake_part.unshift(new Snake_Part(snake_part[0].x-20,snake_part[0].y));
+    else if(direction === 3)snake_part.unshift(new Snake_Part(snake_part[0].x+20,snake_part[0].y));
   }
-  if(apple.x==rectangle.x&&apple.y==rectangle.y){
-    snake.length+=1;
-    console.log('hit - length:'+snake.length);
+  if(apple.x==snake_part[0].x&&apple.y==snake_part[0].y){
+    snake_length+=1;
+    console.log('hit - length:'+snake_length);
     apple_exists = false;
+    if(direction === 0)snake_part.unshift(new Snake_Part(snake_part[snake_length-1].x,snake_part[snake_length-1].y-20));
+    if(direction === 1)snake_part.unshift(new Snake_Part(snake_part[snake_length-1].x,snake_part[snake_length-1].y+20));
+    if(direction === 2)snake_part.unshift(new Snake_Part(snake_part[snake_length-1].x-20,snake_part[snake_length-1].y));
+    if(direction === 3)snake_part.unshift(new Snake_Part(snake_part[snake_length-1].x+20,snake_part[snake_length-1].y));
   }
-
-  /*for(let i=0;i<400;i+=rect_size){
-    for(let j=0;j<400;j+=rect_size){
-    rect(i,j,rect_size,rect_size);
-    }
-  }xd*/
 }
 function keyPressed() {
-  if (keyCode === LEFT_ARROW || keyCode === 65)
-    direction = 2;
-  else if (keyCode === RIGHT_ARROW|| keyCode === 68)
-    direction = 3;
-  else if (keyCode === UP_ARROW|| keyCode === 87)
-    direction = 0;
-  else if (keyCode === DOWN_ARROW|| keyCode === 83)
-    direction = 1;
+  if (keyCode === LEFT_ARROW || keyCode === 65){
+    if(direction != 3)direction = 2;
+  }
+  else if (keyCode === RIGHT_ARROW|| keyCode === 68){
+    if(direction != 2)direction = 3;
+  }
+  else if (keyCode === UP_ARROW|| keyCode === 87){
+    if(direction != 1)direction = 0;
+  }
+  else if (keyCode === DOWN_ARROW|| keyCode === 83){
+    if(direction != 0)direction = 1;
+  }
+
 }
