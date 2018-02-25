@@ -15,6 +15,7 @@ direction:
 2 - left
 3 - right
 */
+
 function Apple(){
   //this.x=0;
   //this.y=0;
@@ -51,6 +52,16 @@ function draw() {
   }
   if(apple_exists === false){
     apple = new Apple();
+    let trigger=true;
+    while(trigger){
+      trigger=false;
+      for(let i=1;i<snake_part.length;i++){
+        if(apple.x==snake_part[i].x&&apple.y==snake_part[i].y){
+          trigger=true;
+          apple = new Apple();
+        }
+      }
+    }
 
     //console.log(apple.x+' '+apple.y);
     apple_exists=true;
@@ -63,8 +74,18 @@ function draw() {
       if(direction === 0){
         //console.log("MOVE"+direction+' '+snake_part[0].x+' '+(snake_part[0].y-20));
         if((snake_part[0].y-rect_size)>=0){
-          snake_part.pop();
-          snake_part.unshift(new Snake_Part(snake_part[0].x,snake_part[0].y-rect_size));
+          let trigger=false;
+          for(let i=1;i<snake_part.length;i++){
+            if(snake_part[0].x==snake_part[i].x&&snake_part[0].y-rect_size==snake_part[i].y)trigger=true;
+          }
+          if(trigger){
+            alive=false;
+            changed=true;
+          }
+          else{
+            snake_part.pop();
+            snake_part.unshift(new Snake_Part(snake_part[0].x,snake_part[0].y-rect_size));
+          }
         }
         else {
           //console.log("COLLISION"+direction+' '+snake_part[0].x+' '+(snake_part[0].y-20));
@@ -75,8 +96,18 @@ function draw() {
       else if(direction === 1){
         //console.log("MOVE"+direction+' '+snake_part[0].x+' '+(snake_part[0].y+20));
         if((snake_part[0].y+rect_size)<(height-1)){
-          snake_part.pop();
-          snake_part.unshift(new Snake_Part(snake_part[0].x,snake_part[0].y+rect_size));
+          let trigger=false;
+          for(let i=1;i<snake_part.length;i++){
+            if(snake_part[0].x==snake_part[i].x&&snake_part[0].y+rect_size==snake_part[i].y)trigger=true;
+          }
+          if(trigger){
+            alive=false;
+            changed=true;
+          }
+          else{
+            snake_part.pop();
+            snake_part.unshift(new Snake_Part(snake_part[0].x,snake_part[0].y+rect_size));
+          }
         }
         else {
           //console.log("COLLISION"+direction+' '+snake_part[0].x+' '+(snake_part[0].y+20));
@@ -87,8 +118,18 @@ function draw() {
       else if(direction === 2){
         //console.log("MOVE"+direction+' '+(snake_part[0].x-20)+' '+snake_part[0].y);
         if((snake_part[0].x-rect_size)>=0){
-          snake_part.pop();
-          snake_part.unshift(new Snake_Part(snake_part[0].x-rect_size,snake_part[0].y));
+          let trigger=false;
+          for(let i=1;i<snake_part.length;i++){
+            if(snake_part[0].x-rect_size==snake_part[i].x&&snake_part[0].y==snake_part[i].y)trigger=true;
+          }
+          if(trigger){
+            alive=false;
+            changed=true;
+          }
+          else{
+            snake_part.pop();
+            snake_part.unshift(new Snake_Part(snake_part[0].x-rect_size,snake_part[0].y));
+          }
         }
         else {
           //console.log("COLLISION"+direction+' '+(snake_part[0].x-20)+' '+snake_part[0].y);
@@ -100,8 +141,18 @@ function draw() {
       else if(direction === 3){
         //console.log("MOVE"+direction+' '+(snake_part[0].x+20)+' '+snake_part[0].y);
         if((snake_part[0].x+rect_size)<(width-1)){
-          snake_part.pop();
-          snake_part.unshift(new Snake_Part(snake_part[0].x+rect_size,snake_part[0].y));
+          let trigger=false;
+          for(let i=1;i<snake_part.length;i++){
+            if(snake_part[0].x+rect_size==snake_part[i].x&&snake_part[0].y==snake_part[i].y)trigger=true;
+          }
+          if(trigger){
+            alive=false;
+            changed=true;
+          }
+          else{
+            snake_part.pop();
+            snake_part.unshift(new Snake_Part(snake_part[0].x+rect_size,snake_part[0].y));
+          }
         }
         else {
           //console.log("COLLISION"+direction+' '+(snake_part[0].x+20)+' '+snake_part[0].y);
